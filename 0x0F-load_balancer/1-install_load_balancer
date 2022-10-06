@@ -6,7 +6,7 @@ sudo add-apt-repository -y ppa:vbernat/haproxy-2.4
 sudo apt-get -y install haproxy
 
 # the load balancer's configuration
-DOMAIN_NAME='web'
+DOMAIN_NAME='dennisappiah.tech'
 INIT_FILE='/etc/default/haproxy'
 CONFIG_FILE='/etc/haproxy/haproxy.cfg'
 HAPROXY_LB_CONFIG=\
@@ -14,11 +14,11 @@ HAPROXY_LB_CONFIG=\
 #--$DOMAIN_NAME-params-begin--
 backend $DOMAIN_NAME-backend
 	balance roundrobin
-	server 13974-web-01 3.230.155.52 check port 80
-	server 13974-web-02 35.170.75.172  check port 80
+	server 13974-web-01 3.230.155.52:80 
+        server 13974-web-02 35.170.75.172:80
 
-frontend http
-	bind *:8080
+frontend $DOMAIN_NAME-frontend
+	bind *:80
 	mode http
 	default_backend $DOMAIN_NAME-backend
 #--$DOMAIN_NAME-params-end--
