@@ -34,17 +34,12 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-frontend dennisappiah.tech-http-frontend
-        bind     *:80
-        http-request set-header X-Forwarded-Proto http
-        default_backend  dennisappiah.tech-backend
-
-backend dennisappiah.tech-backend
+listen  dennisappiah
+        bind :80
+        mode http
         balance roundrobin
         server 13974-web-01 3.230.155.52:80
         server 13974-web-02 35.170.75.172:80
-
-
 
 frontend www-http
         bind :80
