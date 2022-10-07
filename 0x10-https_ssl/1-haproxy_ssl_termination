@@ -38,14 +38,26 @@ frontend dennisappiah.tech-http-frontend
         http-request set-header X-Forwarded-Proto http
         default_backend  dennisappiah.tech-backend
 
-
-frontend dennisappiah.tech-https-frontend
-        bind *:443 ssl crt /etc/haproxy/ssl/www.dennisappiah.tech.pem
-       	http-request set-header X-Forwarded-Proto https
-        default_backend dennisappiah.tech-backend
-
-
 backend dennisappiah.tech-backend
         balance roundrobin
+        server 13974-web-01 3.230.155.52:80
+        server 13974-web-02 35.170.75.172:80
+
+
+
+frontend www-http
+        bind *:80
+        http-request set-header X-Forwarded-Proto http
+        default_backend web-backend
+
+
+frontend www-https
+        bind *:443 ssl crt /etc/haproxy/ssl/www.dennisappiah.tech.pem
+       	http-request set-header X-Forwarded-Proto https
+        default_backend web-backend
+
+
+backend web-backend
+        redirect scheme https if !{ ssl_fc }
         server 13974-web-01 3.230.155.52:80
         server 13974-web-02 35.170.75.172:80
